@@ -16,23 +16,25 @@ if !exists('g:ping_cursor_flash_milliseconds')
 endif
 
 function! s:PingCursor()
-  " Save current CursorLine and CursorColumn attributes
-  let l:cur_cursorline = matchstr(execute('hi CursorLine'), 'term=.*')
-  let l:cur_cursorcolumn = matchstr(execute('hi CursorColumn'), 'term=.*')
+  if exists('g:ping_cursor_color') && !empty(g:ping_cursor_color)
+    " Save current CursorLine and CursorColumn attributes.
+    let l:cur_cursorline = matchstr(execute('hi CursorLine'), 'term=.*')
+    let l:cur_cursorcolumn = matchstr(execute('hi CursorColumn'), 'term=.*')
+    " Change the color
+    execute 'highlight CursorLine ctermbg=' . g:ping_cursor_color . ' guibg=' . g:ping_cursor_color
+    execute 'highlight CursorColumn ctermbg=' . g:ping_cursor_color . ' guibg=' . g:ping_cursor_color
+  endif
 
-  " Flash
-  highlight CursorLine ctermbg=lightblue guibg=lightblue
-  highlight CursorColumn ctermbg=lightblue guibg=lightblue
   set cursorline cursorcolumn
   redraw
   execute 'sleep' g:ping_cursor_flash_milliseconds . 'm'
   set nocursorline nocursorcolumn
 
   " Restore previous highlight attributes
-  if !empty(l:cur_cursorline)
+  if exists('l:cur_cursorline') && !empty(l:cur_cursorline)
     execute 'highlight CursorLine ' . l:cur_cursorline
   endif
-  if !empty(l:cur_cursorcolumn)
+  if exists('l:cur_cursorcolumn') && !empty(l:cur_cursorcolumn)
     execute 'highlight CursorColumn ' . l:cur_cursorcolumn
   endif
 endfunction

@@ -42,10 +42,12 @@ it and just execute the command as follows when you need it.
 
 ## Configuration
 
-The duration of the cursor flash can be customized in your `~/.vimrc`:
+The duration and color of the cursor flash can be customized in your `~/.vimrc`:
 
-    " This is the default
+    " This is the default duration
     let g:ping_cursor_flash_milliseconds = 250
+    " Set named color to the cursor flash 
+    let g:ping_cursor_color = 'lightblue'
 
 ## Why I Built This
 
